@@ -1,0 +1,13 @@
+.Card {
+  padding: 24px 0px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  width: 150px;
+  display: flex;
+  justify-content: center;
+  border: 1px solid #e0e0e0;
+}
+
+.Card:not(:last-of-type) {
+  margin-bottom: 16px;
+}
