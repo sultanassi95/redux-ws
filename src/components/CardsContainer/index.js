@@ -1,35 +1,21 @@
 import React from "react";
+import { connect } from 'react-redux';
+
+import { getNamesAction } from '../../actions';
 
 import Card from "../Card";
-import { getData } from "../../utils";
 
 import "./styles.css";
 
-const INITIAL_STATE = {
-  names: [],
-  loadingNames: true
-};
-
 class CardsContainer extends React.Component {
-  state = {
-    ...INITIAL_STATE
-  };
-
   componentDidMount() {
-    getData()
-      .then(names => {
-        this.setState({
-          names,
-          loadingNames: false
-        });
-      })
-      .catch(err => console.error("err", err));
+    const { props: { getNamesAction } } = this;
+    getNamesAction();
   }
 
   filterNames = () => {
     const {
-      props: { search },
-      state: { names }
+      props: { names: { names, search } },
     } = this;
 
     if (search) {
@@ -43,13 +29,13 @@ class CardsContainer extends React.Component {
 
   render() {
     const {
-      state: { names, loadingNames },
+      props: { names: { names, loaders: { getNames } } },
       filterNames
     } = this;
 
-    if (loadingNames) return <p>Loading...</p>;
+    if (getNames) return <p>Loading...</p>;
 
-    const namesToRender = filterNames(names);
+    const namesToRender = filterNames();
 
     return (
       <div className="CardsContainer">
@@ -61,4 +47,12 @@ class CardsContainer extends React.Component {
   }
 }
 
-export default CardsContainer;
+const mapStateToProps = ({ names }) => ({
+  names
+});
+
+const mapDispatchToProps = {
+  getNamesAction,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CardsContainer);

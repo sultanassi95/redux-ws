@@ -1,17 +1,23 @@
 import React from "react";
+import { connect } from 'react-redux';
+import { setSearchAction } from '../../actions';
 
 import "./styles.css";
 
-const SearchBar = ({ onChange }) => {
+const SearchBar = ({ setSearchAction }) => {
 
   return (
     <input
       type="text"
       className="SearchBar"
-      onChange={(e) => onChange(e.target.value)}
+      onChange={(e) => setSearchAction(e.target.value)}
       placeholder="What name are you looking for?"
     />
   );
 }
 
-export default SearchBar;
+const mapDispatchToProps = {
+  setSearchAction,
+}
+
+export default connect(null, mapDispatchToProps)(SearchBar);
